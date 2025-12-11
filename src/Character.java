@@ -25,7 +25,6 @@ public class Character {
         this.armor = armor;
         this.level = level;
     }
-
     public String getName() {
         return name;
     }
@@ -35,11 +34,9 @@ public class Character {
     public String getType() {
         return type;
     }
-
     public Weapon getWeapon() {
         return weapon;
     }
-
     public double getRange() {
         return range;
     }
@@ -58,7 +55,6 @@ public class Character {
     public int getLevel() {
         return level;
     }
-
     public void setHealth(double health) {
         this.health = health;
     }
@@ -68,7 +64,7 @@ public class Character {
     }
 
     public Projectile fire() {
-        return weapon.fire(name);
+        return weapon.fire(this.name,this.type);
     }
 
 }

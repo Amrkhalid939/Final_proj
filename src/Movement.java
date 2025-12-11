@@ -2,8 +2,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape; // Imported Shape
-import javafx.scene.paint.Color; // Imported Color for identification
+import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +21,6 @@ public class Movement {
     private static Pane p;
     private static ProgressBar healthBar1;
     private static ProgressBar healthBar2;
-
 
     public static void initialPlace(Character player1, Character player2, int screenWidth, int screenHeight, Pane p) {
         Button p1 = player1.getPlayer();
@@ -49,7 +48,6 @@ public class Movement {
         healthBar2.relocate(screenWidth-200,0);
         healthBar2.setStyle("-fx-accent: green;");
 
-
         Movement.p.getChildren().add(healthBar1);
         Movement.p.getChildren().add(healthBar2);
     }
@@ -60,24 +58,14 @@ public class Movement {
         double p1Step = player1.getSpeed();
         double p2Step = player2.getSpeed();
 
-
         if (keys.contains("W")) p1.setLayoutY((p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0);
-        if (keys.contains("S"))
-            p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
-
+        if (keys.contains("S")) p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
         if (keys.contains("A")) p1.setLayoutX((p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0);
-
-        if (keys.contains("D"))
-            p1.setLayoutX((p1.getLayoutX() < screenWidth / 2.0 - player1Width) ? p1.getLayoutX() + p1Step : screenWidth / 2.0 - player1Width);
-
-
+        if (keys.contains("D")) p1.setLayoutX((p1.getLayoutX() < screenWidth - player1Width) ? p1.getLayoutX() + p1Step : screenWidth - player1Width);
         if (keys.contains("UP")) p2.setLayoutY((p2.getLayoutY() >= p2Step) ? p2.getLayoutY() - p2Step : 0);
-        if (keys.contains("DOWN"))
-            p2.setLayoutY((p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height);
-        if (keys.contains("LEFT"))
-            p2.setLayoutX((p2.getLayoutX() > screenWidth / 2.0) ? p2.getLayoutX() - p2Step : screenWidth / 2.0);
-        if (keys.contains("RIGHT"))
-            p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
+        if (keys.contains("DOWN")) p2.setLayoutY((p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height);
+        if (keys.contains("LEFT")) p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
+        if (keys.contains("RIGHT")) p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
 
         fireMove(keys, p);
         fireRemove(p);
@@ -102,13 +90,11 @@ public class Movement {
             }
         }
 
-
         for(Projectile projectile: fire)
             projectile.move();
     }
 
     public static void fireRemove(Pane p) {
-
         ArrayList<Projectile> toRemoveFire = new ArrayList<>();
         ArrayList<Shape> toRemoveShape = new ArrayList<>();
 
@@ -117,7 +103,6 @@ public class Movement {
             double y = projectile.getShape().getLayoutY();
 
             if (x >= 0 && y <= screenWidth){
-
                 if(projectile.getShape().getFill().equals(Color.BLUE) &&
                         x + 10 >= player2.getPlayer().getLayoutX() &&
                         x <= player2.getPlayer().getLayoutX() + player2Width &&
@@ -127,7 +112,6 @@ public class Movement {
                     player2.setHealth(player2.getHealth() - 10);
                     toRemoveFire.add(projectile);
                     toRemoveShape.add(projectile.getShape());
-
                     healthBar2.setPrefWidth(healthBar2.getPrefWidth()-20);
                 }
 
@@ -140,12 +124,10 @@ public class Movement {
                     player1.setHealth(player1.getHealth() - 10);
                     toRemoveFire.add(projectile);
                     toRemoveShape.add(projectile.getShape());
-
                     healthBar1.setPrefWidth(healthBar1.getPrefWidth()-20);
                 }
-
             }
-            else{
+            if(x < 0 || x > screenWidth || projectile.OutOfRange()) {
                 toRemoveFire.add(projectile);
                 toRemoveShape.add(projectile.getShape());
             }
