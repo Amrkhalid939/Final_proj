@@ -12,8 +12,8 @@ public class HelloApplication extends Application {
     private final HashSet<String> keys = new HashSet<>();
     @Override
     public void start(Stage stage) throws IOException {
-        int screenWidth = 1920;
-        int screenHeight = 1080;
+        int screenWidth = 1000;
+        int screenHeight = 700;
         Warrior player1 = new Warrior("1");
         Archer player2 = new Archer("2");
 

@@ -1,8 +1,9 @@
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape; // Imported Shape
+import javafx.scene.paint.Color; // Imported Color for identification
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,8 +52,6 @@ public class Movement {
 
         Movement.p.getChildren().add(healthBar1);
         Movement.p.getChildren().add(healthBar2);
-
-
     }
 
     public static void move(HashSet<String> keys) {
@@ -65,7 +64,9 @@ public class Movement {
         if (keys.contains("W")) p1.setLayoutY((p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0);
         if (keys.contains("S"))
             p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
+
         if (keys.contains("A")) p1.setLayoutX((p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0);
+
         if (keys.contains("D"))
             p1.setLayoutX((p1.getLayoutX() < screenWidth / 2.0 - player1Width) ? p1.getLayoutX() + p1Step : screenWidth / 2.0 - player1Width);
 
@@ -87,8 +88,8 @@ public class Movement {
             Projectile fire1 = player1.fire();
             if (fire1 != null) {
                 fire.add(fire1);
-                fire1.getLabel().relocate(player1.getPlayer().getLayoutX() + player1Width, player1.getPlayer().getLayoutY() + player1Height/2.0 - 10);
-                p.getChildren().add(fire1.getLabel());
+                fire1.getShape().relocate(player1.getPlayer().getLayoutX() + player1Width, player1.getPlayer().getLayoutY() + player1Height/2.0 - 10);
+                p.getChildren().add(fire1.getShape());
             }
         }
 
@@ -96,8 +97,8 @@ public class Movement {
             Projectile fire2 = player2.fire();
             if (fire2 != null) {
                 fire.add(fire2);
-                fire2.getLabel().relocate(player2.getPlayer().getLayoutX(), player2.getPlayer().getLayoutY()+ player2Height/2.0 - 10);
-                p.getChildren().add(fire2.getLabel());
+                fire2.getShape().relocate(player2.getPlayer().getLayoutX(), player2.getPlayer().getLayoutY()+ player2Height/2.0 - 10);
+                p.getChildren().add(fire2.getShape());
             }
         }
 
@@ -109,16 +110,15 @@ public class Movement {
     public static void fireRemove(Pane p) {
 
         ArrayList<Projectile> toRemoveFire = new ArrayList<>();
-        ArrayList<Label> toRemoveShape = new ArrayList<>();
-
-
+        ArrayList<Shape> toRemoveShape = new ArrayList<>();
 
         for(Projectile projectile: fire){
-            double x = projectile.getLabel().getLayoutX();
-            double y = projectile.getLabel().getLayoutY();
+            double x = projectile.getShape().getLayoutX();
+            double y = projectile.getShape().getLayoutY();
 
             if (x >= 0 && y <= screenWidth){
-                if(projectile.getLabel().getText().equals("1") &&
+
+                if(projectile.getShape().getFill().equals(Color.BLUE) &&
                         x + 10 >= player2.getPlayer().getLayoutX() &&
                         x <= player2.getPlayer().getLayoutX() + player2Width &&
                         y + 10 >= player2.getPlayer().getLayoutY() &&
@@ -126,12 +126,12 @@ public class Movement {
 
                     player2.setHealth(player2.getHealth() - 10);
                     toRemoveFire.add(projectile);
-                    toRemoveShape.add(projectile.getLabel());
+                    toRemoveShape.add(projectile.getShape());
 
                     healthBar2.setPrefWidth(healthBar2.getPrefWidth()-20);
                 }
 
-                if(projectile.getLabel().getText().equals("2") &&
+                if(projectile.getShape().getFill().equals(Color.RED) &&
                         x - 10>= player1.getPlayer().getLayoutX() &&
                         x <= player1.getPlayer().getLayoutX() + player1Width &&
                         y + 10>= player1.getPlayer().getLayoutY() &&
@@ -139,7 +139,7 @@ public class Movement {
 
                     player1.setHealth(player1.getHealth() - 10);
                     toRemoveFire.add(projectile);
-                    toRemoveShape.add(projectile.getLabel());
+                    toRemoveShape.add(projectile.getShape());
 
                     healthBar1.setPrefWidth(healthBar1.getPrefWidth()-20);
                 }
@@ -147,12 +147,11 @@ public class Movement {
             }
             else{
                 toRemoveFire.add(projectile);
-                toRemoveShape.add(projectile.getLabel());
+                toRemoveShape.add(projectile.getShape());
             }
         }
 
         fire.removeAll(toRemoveFire);
         p.getChildren().removeAll(toRemoveShape);
     }
-
 }

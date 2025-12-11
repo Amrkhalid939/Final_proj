@@ -1,33 +1,40 @@
-import javafx.scene.control.Label;
-
-import java.util.Calendar;
+// Note the new imports
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
 
 public class Projectile {
-    private String playerName;
-    private Label l;
-    private String direction;
-    private int refreshSpeed = 1;
-    private int speed = 6;
-    private Calendar lastRefresh;
+    private Shape shape;
+
+    private int velocity;
+    private long lastRefreshTime;
+    private static final int REFRESH_THRESHOLD = 1;
 
     public Projectile(String playerName) {
-        this.playerName = playerName;
-        l = new Label(playerName);
-        if(playerName.equals("1")) this.direction = "left";
-        else this.direction = "right";
-        lastRefresh = Calendar.getInstance();
+
+        Rectangle rect = new Rectangle(20, 8);
+
+        if (playerName.equals("1")) {
+            this.velocity = 6;
+            rect.setFill(Color.BLUE);
+        } else {
+            this.velocity = -6;
+            rect.setFill(Color.RED);
+        }
+        this.shape = rect;
+        this.lastRefreshTime = System.currentTimeMillis();
     }
 
-    public Label getLabel() {
-        return l;
+
+    public Shape getShape() {
+        return shape;
     }
     public void move() {
-        Calendar now = Calendar.getInstance();
-        long duration = now.getTimeInMillis() - lastRefresh.getTimeInMillis();
-        if (duration>=refreshSpeed) {
-            lastRefresh = now;
-            if (direction.equals("left")) l.setLayoutX(l.getLayoutX() + speed);
-            if (direction.equals("right")) l.setLayoutX(l.getLayoutX() - speed);
+        long now = System.currentTimeMillis();
+        if (now - lastRefreshTime >= REFRESH_THRESHOLD) {
+
+            shape.setLayoutX(shape.getLayoutX() + velocity);
+            lastRefreshTime = now;
         }
     }
 }
