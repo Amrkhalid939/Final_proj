@@ -13,6 +13,8 @@ public class Character {
     private double armor;
     private int level;
 
+    //kwjhfkjwehfkjadfhjkh
+
     public Character(String name, String race, String type, Weapon weapon, double range,  double health, double damage, double speed, double armor, int level) {
         this.name = name;
         this.race = race;
