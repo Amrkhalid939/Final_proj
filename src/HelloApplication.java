@@ -108,7 +108,6 @@ public class HelloApplication extends Application {
                 return new Warrior(name);
         }
     }
-
     public static void main(String[] args) {
         launch();
     }
