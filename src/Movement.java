@@ -40,6 +40,11 @@ public class Movement {
         p1.relocate(screenWidth/4.0 - player1Width/2.0 ,screenHeight/2.0 - player1Height/2.0);
         player2.getPlayer().relocate(3 * screenWidth/4.0 - player2Width/2.0 ,screenHeight/2.0 - player2Height/2.0);
 
+        if (player1.getWeapon()!=null&&player1.getWeapon().getWeaponShape()!=null&&player2.getWeapon()!=null&&player2.getWeapon().getWeaponShape()!=null) {
+            p.getChildren().add(player1.getWeapon().getWeaponShape());
+            p.getChildren().add(player2.getWeapon().getWeaponShape());
+        }
+
         Movement.healthBar1 = new ProgressBar(player1.getHealth());
         Movement.healthBar2 = new ProgressBar(player2.getHealth());
         healthBar1.setPrefWidth(200);
@@ -67,6 +72,16 @@ public class Movement {
         if (keys.contains("LEFT")) p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
         if (keys.contains("RIGHT")) p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
 
+        if (player1.getWeapon()!=null&&player1.getWeapon().getWeaponShape()!=null){
+            player1.getWeapon().getWeaponShape().setLayoutX(p1.getLayoutX() + 60);
+            player1.getWeapon().getWeaponShape().setLayoutY(p1.getLayoutY() + 10);
+        }
+
+        if (player2.getWeapon()!=null&&player2.getWeapon().getWeaponShape()!=null){
+            player2.getWeapon().getWeaponShape().setLayoutX(p2.getLayoutX() + -30);
+            player2.getWeapon().getWeaponShape().setLayoutY(p2.getLayoutY() + 15);
+
+        }
         fireMove(keys, p);
         fireRemove(p);
     }
@@ -76,7 +91,7 @@ public class Movement {
             Projectile fire1 = player1.fire();
             if (fire1 != null) {
                 fire.add(fire1);
-                fire1.getShape().relocate(player1.getPlayer().getLayoutX() + player1Width, player1.getPlayer().getLayoutY() + player1Height/2.0 - 10);
+                fire1.getShape().relocate(player1.getPlayer().getLayoutX()+50 + player1Width, player1.getPlayer().getLayoutY() + player1Height/2.0 - 10);
                 p.getChildren().add(fire1.getShape());
             }
         }
@@ -85,7 +100,7 @@ public class Movement {
             Projectile fire2 = player2.fire();
             if (fire2 != null) {
                 fire.add(fire2);
-                fire2.getShape().relocate(player2.getPlayer().getLayoutX(), player2.getPlayer().getLayoutY()+ player2Height/2.0 - 10);
+                fire2.getShape().relocate(player2.getPlayer().getLayoutX()+-50, player2.getPlayer().getLayoutY()+ player2Height/2.0 - 10);
                 p.getChildren().add(fire2.getShape());
             }
         }
