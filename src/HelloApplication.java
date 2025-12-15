@@ -106,10 +106,10 @@ public class HelloApplication extends Application {
     }
 
     private void showEndScreen(Stage stage, String loser, String winner) {
-        Label loseLabel = new Label(loser + " HAS FALLEN!");
+        Label loseLabel = new Label(loser + " Loses ");
         loseLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;");
 
-        Label winLabel = new Label("VICTORY FOR " + winner.toUpperCase() + "!");
+        Label winLabel = new Label( winner.toUpperCase() + " Wins! " );
         winLabel.setStyle("-fx-font-size: 36px; -fx-text-fill: #2ecc71; -fx-font-weight: bold;");
 
         Button exitButton = new Button("EXIT GAME");
