@@ -10,14 +10,12 @@ public class Character {
     private Weapon active;
     private double range;
     private double health;
-    private double damage;
     private double speed;
-
-
-
+    private int lastDirX;
+    private int lastDirY;
 
     public Character(String name, String race, String type, Weapon weapon1, Weapon weapon2,
-                     double range,  double health, double damage, double speed, double armor, int level) {
+                     double range,  double health, double speed, double armor, int level) {
         this.name = name;
         this.race = race;
         this.type = type;
@@ -26,10 +24,15 @@ public class Character {
         this.active=weapon1;
         this.range = range;
         this.health = health;
-        this.damage = damage;
         this.speed = speed;
 
-
+        if (name.equals("1")) {
+            this.lastDirX = 1;
+            this.lastDirY = 0;
+        } else {
+            this.lastDirX = -1;
+            this.lastDirY = 0;
+        }
     }
     public String getName() {
         return name;
@@ -49,9 +52,7 @@ public class Character {
     public double getHealth() {
         return health;
     }
-    public double getDamage() {
-        return damage;
-    }
+
     public double getSpeed() {
         return speed;
     }
@@ -64,8 +65,16 @@ public class Character {
         return new Button("X");
     }
 
+    public void setDirection(int x, int y) {
+        this.lastDirX = x;
+        this.lastDirY = y;
+    }
+
     public Projectile fire() {
-        return active.fire(this.name,this.type);
+        return active.fire(this.name, active.getName(), lastDirX, lastDirY);
+    }
+    public String getActiveString() {
+        return getActive().toString();
     }
 
     public Weapon getActive() {
@@ -75,11 +84,6 @@ public class Character {
     public void switchWeapon(){
         if (active==weapon1)
             active=weapon2;
-
-
         else active=weapon1;
-
     }
-
-
 }

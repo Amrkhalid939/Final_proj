@@ -63,14 +63,38 @@ public class Movement {
         double p1Step = player1.getSpeed();
         double p2Step = player2.getSpeed();
 
-        if (keys.contains("W")) p1.setLayoutY((p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0);
-        if (keys.contains("S")) p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
-        if (keys.contains("A")) p1.setLayoutX((p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0);
-        if (keys.contains("D")) p1.setLayoutX((p1.getLayoutX() < screenWidth - player1Width) ? p1.getLayoutX() + p1Step : screenWidth - player1Width);
-        if (keys.contains("UP")) p2.setLayoutY((p2.getLayoutY() >= p2Step) ? p2.getLayoutY() - p2Step : 0);
-        if (keys.contains("DOWN")) p2.setLayoutY((p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height);
-        if (keys.contains("LEFT")) p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
-        if (keys.contains("RIGHT")) p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
+        if (keys.contains("W")) {
+            p1.setLayoutY((p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0);
+            player1.setDirection(0, -1);
+        }
+        if (keys.contains("S")) {
+            p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
+            player1.setDirection(0, 1);
+        }
+        if (keys.contains("A")) {
+            p1.setLayoutX((p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0);
+            player1.setDirection(-1, 0);
+        }
+        if (keys.contains("D")) {
+            p1.setLayoutX((p1.getLayoutX() < screenWidth - player1Width) ? p1.getLayoutX() + p1Step : screenWidth - player1Width);
+            player1.setDirection(1, 0);
+        }
+        if (keys.contains("UP")) {
+            p2.setLayoutY((p2.getLayoutY() >= p2Step) ? p2.getLayoutY() - p2Step : 0);
+            player2.setDirection(0, -1);
+        }
+        if (keys.contains("DOWN")) {
+            p2.setLayoutY((p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height);
+            player2.setDirection(0, 1);
+        }
+        if (keys.contains("LEFT")) {
+            p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
+            player2.setDirection(-1, 0);
+        }
+        if (keys.contains("RIGHT")) {
+            p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
+            player2.setDirection(1, 0);
+        }
 
         if (player1.getActive()!=null&&player1.getActive().getWeaponShape()!=null){
             player1.getActive().getWeaponShape().setLayoutX(p1.getLayoutX() + 60);
@@ -93,7 +117,7 @@ public class Movement {
             Projectile fire1 = player1.fire();
             if (fire1 != null) {
                 fire.add(fire1);
-                fire1.getShape().relocate(player1.getPlayer().getLayoutX()+50 + player1Width, player1.getPlayer().getLayoutY() + player1Height/2.0 - 10);
+                fire1.getShape().relocate(player1.getPlayer().getLayoutX() + 25, player1.getPlayer().getLayoutY() + 25);
                 p.getChildren().add(fire1.getShape());
             }
         }
@@ -102,7 +126,7 @@ public class Movement {
             Projectile fire2 = player2.fire();
             if (fire2 != null) {
                 fire.add(fire2);
-                fire2.getShape().relocate(player2.getPlayer().getLayoutX()+-50, player2.getPlayer().getLayoutY()+ player2Height/2.0 - 10);
+                fire2.getShape().relocate(player2.getPlayer().getLayoutX() + 25, player2.getPlayer().getLayoutY() + 25);
                 p.getChildren().add(fire2.getShape());
             }
         }
@@ -154,8 +178,6 @@ public class Movement {
         p.getChildren().removeAll(toRemoveShape);
     }
 
-
-
     public static void switchWeapon(Character player) {
         Weapon oldWeapon=player.getActive();
         player.switchWeapon();
@@ -165,23 +187,17 @@ public class Movement {
 
         if (newWeapon!=null && newWeapon.getWeaponShape()!=null)
             p.getChildren().add(newWeapon.getWeaponShape());
-
-
     }
 
     public static void handleWeaponSwitch(HashSet<String> keys){
-
         if(keys.contains("Q")) {
             switchWeapon(player1);
             keys.remove("Q");
         }
 
-            if(keys.contains("P")){
-                switchWeapon(player2);
-                keys.remove("P");
+        if(keys.contains("P")){
+            switchWeapon(player2);
+            keys.remove("P");
         }
-
     }
-
-
 }

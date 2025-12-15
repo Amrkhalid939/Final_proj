@@ -4,7 +4,7 @@ public class Mage extends Character{
     private Button player;
     public Mage(String characterName) {
         super(characterName, "Human", "Mage", new MagicBall(),new MagicStick(),
-                120, 80, 20, 4, 50, 1);
+                120, 100, 4, 50, 1);
         player =  new Button("M");
     }
 

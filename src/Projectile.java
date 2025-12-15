@@ -4,19 +4,28 @@ import javafx.scene.paint.Color;
 
 public class Projectile {
     private Shape shape;
-    private int velocity;
+    private int xVelocity;
+    private int yVelocity;
     private long lastRefreshTime;
     private static final int threshold = 1;
     private double distanceTraveled = 0;
     private double maxRange;
 
-    public Projectile(String playerName, String troopType) {
-        Rectangle rect = new Rectangle(20, 8);
+    public Projectile(String playerName, String troopType, int dirX, int dirY) {
+        Rectangle rect;
+        if (dirX == 0 && dirY != 0) {
+            rect = new Rectangle(8, 20);
+        } else {
+            rect = new Rectangle(20, 8);
+        }
+
+        int speed = 6;
+        this.xVelocity = dirX * speed;
+        this.yVelocity = dirY * speed;
+
         if (playerName.equals("1")) {
-            this.velocity = 6;
             rect.setFill(Color.BLUE);
         } else {
-            this.velocity = -6;
             rect.setFill(Color.RED);
         }
         this.maxRange = determineRange(troopType);
@@ -26,12 +35,15 @@ public class Projectile {
 
     private double determineRange(String troopType) {
         switch (troopType.toLowerCase()) {
-            case "archer":
+            case "bow":
                 return 800;
-            case "mage":
+            case "magicball":
+            case "magicstick":
                 return 500;
-            case "knight":
-            case "warrior":
+            case "spear":
+                return 300;
+            case "sword":
+            case "axe":
                 return 150;
             default:
                 return 400;
@@ -47,8 +59,9 @@ public class Projectile {
         long now = System.currentTimeMillis();
 
         if (distanceTraveled < maxRange && (now - lastRefreshTime >= threshold)) {
-            shape.setLayoutX(shape.getLayoutX() + velocity);
-            distanceTraveled += Math.abs(velocity);
+            shape.setLayoutX(shape.getLayoutX() + xVelocity);
+            shape.setLayoutY(shape.getLayoutY() + yVelocity);
+            distanceTraveled += Math.sqrt((xVelocity * xVelocity) + (yVelocity * yVelocity));
             lastRefreshTime = now;
         }
         else if (distanceTraveled >= maxRange) {

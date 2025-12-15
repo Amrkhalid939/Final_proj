@@ -4,7 +4,7 @@ import javafx.scene.transform.Rotate;
 
 public class MagicStick extends Weapon {
     public MagicStick() {
-        super("magicStick", 180, 15, 200);
+        super("magicStick", 180, 15, 200,10);
 
         setWeaponShape(new Rectangle(10,30));
         setWeaponcolor(Color.PURPLE);
