@@ -4,7 +4,7 @@ public class Archer extends Character{
     private Button player;
     public Archer(String characterName) {
         super(characterName, "Human", "Archer", new Bow(),
-                120, 80, 10, 5, 50, 1);
+                new Spear(),20, 80, 10, 5, 50, 1);
         player =  new Button("A");
     }
 

@@ -72,16 +72,18 @@ public class Movement {
         if (keys.contains("LEFT")) p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
         if (keys.contains("RIGHT")) p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
 
-        if (player1.getWeapon()!=null&&player1.getWeapon().getWeaponShape()!=null){
-            player1.getWeapon().getWeaponShape().setLayoutX(p1.getLayoutX() + 60);
-            player1.getWeapon().getWeaponShape().setLayoutY(p1.getLayoutY() + 10);
+        if (player1.getActive()!=null&&player1.getActive().getWeaponShape()!=null){
+            player1.getActive().getWeaponShape().setLayoutX(p1.getLayoutX() + 60);
+            player1.getActive().getWeaponShape().setLayoutY(p1.getLayoutY() + 10);
         }
 
-        if (player2.getWeapon()!=null&&player2.getWeapon().getWeaponShape()!=null){
-            player2.getWeapon().getWeaponShape().setLayoutX(p2.getLayoutX() + -30);
-            player2.getWeapon().getWeaponShape().setLayoutY(p2.getLayoutY() + 15);
+        if (player2.getActive()!=null&&player2.getActive().getWeaponShape()!=null){
+            player2.getActive().getWeaponShape().setLayoutX(p2.getLayoutX() + -30);
+            player2.getActive().getWeaponShape().setLayoutY(p2.getLayoutY() + 15);
 
         }
+
+        handleWeaponSwitch(keys);
         fireMove(keys, p);
         fireRemove(p);
     }
@@ -151,4 +153,35 @@ public class Movement {
         fire.removeAll(toRemoveFire);
         p.getChildren().removeAll(toRemoveShape);
     }
+
+
+
+    public static void switchWeapon(Character player) {
+        Weapon oldWeapon=player.getActive();
+        player.switchWeapon();
+        Weapon newWeapon=player.getActive();
+        if(oldWeapon!=null)
+            p.getChildren().remove(oldWeapon.getWeaponShape());
+
+        if (newWeapon!=null && newWeapon.getWeaponShape()!=null)
+            p.getChildren().add(newWeapon.getWeaponShape());
+
+
+    }
+
+    public static void handleWeaponSwitch(HashSet<String> keys){
+
+        if(keys.contains("Q")) {
+            switchWeapon(player1);
+            keys.remove("Q");
+        }
+
+            if(keys.contains("P")){
+                switchWeapon(player2);
+                keys.remove("P");
+        }
+
+    }
+
+
 }

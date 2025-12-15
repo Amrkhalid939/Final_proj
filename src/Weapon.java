@@ -1,7 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Weapon {
+public class Weapon  {
     private String name;
     private double range;
     private double speed;
