@@ -66,8 +66,12 @@ public class Character {
     }
 
     public void setDirection(int x, int y) {
+        if (x==0&&y==0)
+        return;
         this.lastDirX = x;
         this.lastDirY = y;
+
+
     }
 
     public Projectile fire() {
@@ -86,4 +90,17 @@ public class Character {
             active=weapon2;
         else active=weapon1;
     }
+
+    public int getLastDirX() {
+        return lastDirX;
+    }
+
+    public int getLastDirY() {
+        return lastDirY;
+    }
 }
+
+
+
+
+

@@ -96,16 +96,10 @@ public class Movement {
             player2.setDirection(1, 0);
         }
 
-        if (player1.getActive()!=null&&player1.getActive().getWeaponShape()!=null){
-            player1.getActive().getWeaponShape().setLayoutX(p1.getLayoutX() + 60);
-            player1.getActive().getWeaponShape().setLayoutY(p1.getLayoutY() + 10);
-        }
+        UpdateWeaponPosition(player1);
+        UpdateWeaponPosition(player2);
 
-        if (player2.getActive()!=null&&player2.getActive().getWeaponShape()!=null){
-            player2.getActive().getWeaponShape().setLayoutX(p2.getLayoutX() + -30);
-            player2.getActive().getWeaponShape().setLayoutY(p2.getLayoutY() + 15);
 
-        }
 
         handleWeaponSwitch(keys);
         fireMove(keys, p);
@@ -117,8 +111,17 @@ public class Movement {
             Projectile fire1 = player1.fire();
             if (fire1 != null) {
                 fire.add(fire1);
-                fire1.getShape().relocate(player1.getPlayer().getLayoutX() + 25, player1.getPlayer().getLayoutY() + 25);
+                Node Weapon =player1.getActive().getWeaponShape();
+                int dx=player1.getLastDirX();
+                int dy=player1.getLastDirY();
+
+                double x=Weapon.getLayoutX();
+                double y=Weapon.getLayoutY();
+                fire1.getShape().relocate( x + (dx * 30),
+                        y + (dy * 30));
+
                 p.getChildren().add(fire1.getShape());
+
             }
         }
 
@@ -126,8 +129,15 @@ public class Movement {
             Projectile fire2 = player2.fire();
             if (fire2 != null) {
                 fire.add(fire2);
-                fire2.getShape().relocate(player2.getPlayer().getLayoutX() + 25, player2.getPlayer().getLayoutY() + 25);
+                Node Weapon=player2.getActive().getWeaponShape();
+                int dx = player2.getLastDirX();
+                int dy = player2.getLastDirY();
+                fire2.getShape().relocate(
+                        Weapon.getLayoutX() + (dx * 30),
+                        Weapon.getLayoutY() + (dy * 30)
+                );
                 p.getChildren().add(fire2.getShape());
+
             }
         }
 
@@ -200,4 +210,36 @@ public class Movement {
             keys.remove("P");
         }
     }
+
+    public static void UpdateWeaponPosition(Character player ){
+
+        if(player.getActive()==null || player.getActive().getWeaponShape()==null) return;
+
+
+        Node Weapon = player.getActive().getWeaponShape();
+
+        Node body = player.getPlayer();
+        double Distance = 45;
+
+
+        int dx = player.getLastDirX();
+        int dy = player.getLastDirY();
+
+
+
+        Weapon.setLayoutX(
+                body.getLayoutX() + (body.getBoundsInParent().getWidth() / 2) + (dx * Distance) - (Weapon.getBoundsInParent().getWidth() / 2)
+        );
+
+        Weapon.setLayoutY(
+                body.getLayoutY() + (body.getBoundsInParent().getHeight() / 2) + (dy * Distance) - (Weapon.getBoundsInParent().getHeight() / 2)
+        );
+
+
+
+    }
+
+
 }
+
+
