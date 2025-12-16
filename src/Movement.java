@@ -47,10 +47,10 @@ public class Movement {
 
         Movement.healthBar1 = new ProgressBar(player1.getHealth());
         Movement.healthBar2 = new ProgressBar(player2.getHealth());
-        healthBar1.setPrefWidth(200);
+        healthBar1.setPrefWidth(240);
         healthBar1.setStyle("-fx-accent: green;");
-        healthBar2.setPrefWidth(200);
-        healthBar2.relocate(screenWidth-200,0);
+        healthBar2.setPrefWidth(240);
+        healthBar2.relocate(screenWidth-240,0);
         healthBar2.setStyle("-fx-accent: green;");
 
         Movement.p.getChildren().add(healthBar1);
