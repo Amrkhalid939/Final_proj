@@ -88,7 +88,7 @@ public class HelloApplication extends Application {
         gameLoop.start();
 
         stage.setScene(gameScene);
-        stage.setFullScreen(true);
+        stage.setFullScreen(false);
         stage.setTitle("Match: " + p1Type + " vs " + p2Type);
         p.requestFocus();
     }
