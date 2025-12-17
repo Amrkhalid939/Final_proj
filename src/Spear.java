@@ -5,7 +5,7 @@ import javafx.scene.transform.Rotate;
 
 public class Spear extends Weapon {
     public Spear() {
-        super("spear", 250, 12, 300,10);
+        super("spear", 300);
 
 
         setWeaponShape(new Rectangle(10,35));

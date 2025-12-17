@@ -3,21 +3,15 @@ import javafx.scene.shape.Rectangle;
 
 public class Weapon  {
     private String name;
-    private double damage;
-    private double range;
-    private double speed;
     private int cooldown;
     private long lastFireTime;
     private Rectangle WeaponShape;
 
 
-    public Weapon(String name, double range, double speed, int cooldown, double damage) {
+    public Weapon(String name, int cooldown) {
         this.name = name;
-        this.range = range;
-        this.speed = speed;
         this.cooldown = cooldown;
         this.lastFireTime = System.currentTimeMillis();
-        this.damage = damage;
     }
     public Rectangle getWeaponShape(){
         return WeaponShape;

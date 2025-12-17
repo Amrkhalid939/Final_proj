@@ -3,28 +3,26 @@ import javafx.scene.control.Button;
 
 public class Character {
     private String name;
-    private String race;
-    private String type;
     private Weapon weapon1;
     private Weapon weapon2;
     private Weapon active;
     private double range;
     private double health;
+    private double damage;
     private double speed;
     private int lastDirX;
     private int lastDirY;
 
-    public Character(String name, String race, String type, Weapon weapon1, Weapon weapon2,
-                     double range,  double health, double speed, double armor, int level) {
+    public Character(String name, Weapon weapon1, Weapon weapon2,
+                     double range,  double health, double speed, double damage) {
         this.name = name;
-        this.race = race;
-        this.type = type;
         this.weapon1 = weapon1;
         this.weapon2 = weapon2;
         this.active=weapon1;
         this.range = range;
         this.health = health;
         this.speed = speed;
+        this.damage = damage;
 
         if (name.equals("1")) {
             this.lastDirX = 1;
@@ -37,12 +35,7 @@ public class Character {
     public String getName() {
         return name;
     }
-    public String getRace() {
-        return race;
-    }
-    public String getType() {
-        return type;
-    }
+
     public Weapon getWeapon() {
         return weapon1;
     }
@@ -51,6 +44,9 @@ public class Character {
     }
     public double getHealth() {
         return health;
+    }
+    public double getDamage() {
+        return damage;
     }
 
     public double getSpeed() {
@@ -67,11 +63,9 @@ public class Character {
 
     public void setDirection(int x, int y) {
         if (x==0&&y==0)
-        return;
+            return;
         this.lastDirX = x;
         this.lastDirY = y;
-
-
     }
 
     public Projectile fire() {

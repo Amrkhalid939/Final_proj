@@ -16,8 +16,8 @@ import java.util.HashSet;
 public class HelloApplication extends Application {
 
     private final HashSet<String> keys = new HashSet<>();
-    private static final int SCREEN_WIDTH = 1000;
-    private static final int SCREEN_HEIGHT = 700;
+    private static final int SCREEN_WIDTH = 1920;
+    private static final int SCREEN_HEIGHT = 1080;
 
 
     public void start(Stage stage) throws IOException {
@@ -51,7 +51,7 @@ public class HelloApplication extends Application {
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: #2c3e50;");
 
-        Scene selectionScene = new Scene(root, 600, 400);
+        Scene selectionScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         stage.setScene(selectionScene);
         stage.setTitle("Character Selection");
@@ -90,7 +90,7 @@ public class HelloApplication extends Application {
         gameLoop.start();
 
         stage.setScene(gameScene);
-        stage.setFullScreen(false);
+        stage.setFullScreen(true);
         stage.setTitle("Match: " + p1Type + " vs " + p2Type);
         p.requestFocus();
     }
@@ -120,7 +120,7 @@ public class HelloApplication extends Application {
         endLayout.setAlignment(Pos.CENTER);
         endLayout.setStyle("-fx-background-color: #2c3e50;");
 
-        Scene endScene = new Scene(endLayout, 600, 400);
+        Scene endScene = new Scene(endLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
         stage.setScene(endScene);
     }
 

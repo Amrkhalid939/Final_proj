@@ -3,7 +3,7 @@ import javafx.scene.shape.Rectangle;
 
 public class MagicBall extends Weapon{
     public MagicBall(){
-        super("MagicBall",500,8,450,10);
+        super("MagicBall",450);
         setWeaponShape(new Rectangle(25,25));
         setWeaponcolor(Color.PURPLE);
     }

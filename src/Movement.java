@@ -21,6 +21,7 @@ public class Movement {
     private static Pane p;
     private static ProgressBar healthBar1;
     private static ProgressBar healthBar2;
+    private static final double collideMargin = 15;
 
     public static void initialPlace(Character player1, Character player2, int screenWidth, int screenHeight, Pane p) {
         Button p1 = player1.getPlayer();
@@ -47,10 +48,10 @@ public class Movement {
 
         Movement.healthBar1 = new ProgressBar(player1.getHealth());
         Movement.healthBar2 = new ProgressBar(player2.getHealth());
-        healthBar1.setPrefWidth(200);
+        healthBar1.setPrefWidth(player1.getHealth() * 2);
         healthBar1.setStyle("-fx-accent: green;");
-        healthBar2.setPrefWidth(200);
-        healthBar2.relocate(screenWidth-200,0);
+        healthBar2.setPrefWidth(player2.getHealth() * 2);
+        healthBar2.relocate(screenWidth-player2.getHealth() * 2,0);
         healthBar2.setStyle("-fx-accent: green;");
 
         Movement.p.getChildren().add(healthBar1);
@@ -63,48 +64,98 @@ public class Movement {
         double p1Step = player1.getSpeed();
         double p2Step = player2.getSpeed();
 
+
         if (keys.contains("W")) {
-            p1.setLayoutY((p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0);
+            double nextY = (p1.getLayoutY() >= p1Step) ? p1.getLayoutY() - p1Step : 0;
+            if (!collide(player1.getName(), p1.getLayoutX(), nextY)) {
+                p1.setLayoutY(nextY);
+            }
             player1.setDirection(0, -1);
         }
         if (keys.contains("S")) {
-            p1.setLayoutY((p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height);
+            double nextY = (p1.getLayoutY() <= screenHeight - player1Height) ? p1.getLayoutY() + p1Step : screenHeight - player1Height;
+            if (!collide(player1.getName(), p1.getLayoutX(), nextY)) {
+                p1.setLayoutY(nextY);
+            }
             player1.setDirection(0, 1);
         }
         if (keys.contains("A")) {
-            p1.setLayoutX((p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0);
+            double nextX = (p1.getLayoutX() > p1Step) ? p1.getLayoutX() - p1Step : 0;
+            if (!collide(player1.getName(), nextX, p1.getLayoutY())) {
+                p1.setLayoutX(nextX);
+            }
             player1.setDirection(-1, 0);
         }
         if (keys.contains("D")) {
-            p1.setLayoutX((p1.getLayoutX() < screenWidth - player1Width) ? p1.getLayoutX() + p1Step : screenWidth - player1Width);
+            double nextX = (p1.getLayoutX() < screenWidth - player1Width) ? p1.getLayoutX() + p1Step : screenWidth - player1Width;
+            if (!collide(player1.getName(), nextX, p1.getLayoutY())) {
+                p1.setLayoutX(nextX);
+            }
             player1.setDirection(1, 0);
         }
+
+
         if (keys.contains("UP")) {
-            p2.setLayoutY((p2.getLayoutY() >= p2Step) ? p2.getLayoutY() - p2Step : 0);
+            double nextY = (p2.getLayoutY() >= p2Step) ? p2.getLayoutY() - p2Step : 0;
+            if (!collide(player2.getName(), p2.getLayoutX(), nextY)) {
+                p2.setLayoutY(nextY);
+            }
             player2.setDirection(0, -1);
         }
         if (keys.contains("DOWN")) {
-            p2.setLayoutY((p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height);
+            double nextY = (p2.getLayoutY() <= screenHeight - player2Height) ? p2.getLayoutY() + p2Step : screenHeight - player2Height;
+            if (!collide(player2.getName(), p2.getLayoutX(), nextY)) {
+                p2.setLayoutY(nextY);
+            }
             player2.setDirection(0, 1);
         }
         if (keys.contains("LEFT")) {
-            p2.setLayoutX((p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0);
+            double nextX = (p2.getLayoutX() > 0) ? p2.getLayoutX() - p2Step : 0;
+            if (!collide(player2.getName(), nextX, p2.getLayoutY())) {
+                p2.setLayoutX(nextX);
+            }
             player2.setDirection(-1, 0);
         }
         if (keys.contains("RIGHT")) {
-            p2.setLayoutX((p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width);
+            double nextX = (p2.getLayoutX() < screenWidth - player2Width) ? p2.getLayoutX() + p2Step : screenWidth - player2Width;
+            if (!collide(player2.getName(), nextX, p2.getLayoutY())) {
+                p2.setLayoutX(nextX);
+            }
             player2.setDirection(1, 0);
         }
 
         UpdateWeaponPosition(player1);
         UpdateWeaponPosition(player2);
-
-
-
         handleWeaponSwitch(keys);
         fireMove(keys, p);
         fireRemove(p);
     }
+
+
+    public static boolean collide(String player_name, double nextX, double nextY) {
+        Node p1 = player1.getPlayer();
+        Node p2 = player2.getPlayer();
+
+        if (player_name.equals(player1.getName())) {
+            if (nextX + player1Width + collideMargin > p2.getLayoutX() &&
+                    nextX - collideMargin < p2.getLayoutX() + player2Width &&
+                    nextY + player1Height + collideMargin > p2.getLayoutY() &&
+                    nextY - collideMargin < p2.getLayoutY() + player2Height) {
+                return true;
+            }
+        }
+
+        else if (player_name.equals(player2.getName())) {
+            if (nextX + player2Width + collideMargin > p1.getLayoutX() &&
+                    nextX - collideMargin < p1.getLayoutX() + player1Width &&
+                    nextY + player2Height + collideMargin > p1.getLayoutY() &&
+                    nextY - collideMargin < p1.getLayoutY() + player1Height) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static void fireMove(HashSet<String> keys, Pane p) {
         if (keys.contains("F")) {
@@ -160,10 +211,10 @@ public class Movement {
                         y + 10 >= player2.getPlayer().getLayoutY() &&
                         y <= player2.getPlayer().getLayoutY() + player2Height){
 
-                    player2.setHealth(player2.getHealth() - 10);
+                    player2.setHealth(player2.getHealth() - player1.getDamage());
                     toRemoveFire.add(projectile);
                     toRemoveShape.add(projectile.getShape());
-                    healthBar2.setPrefWidth(healthBar2.getPrefWidth()-20);
+                    healthBar2.setPrefWidth(healthBar2.getPrefWidth() - player1.getDamage() * 2);
                 }
 
                 if(projectile.getShape().getFill().equals(Color.RED) &&
@@ -172,10 +223,10 @@ public class Movement {
                         y + 10>= player1.getPlayer().getLayoutY() &&
                         y <= player1.getPlayer().getLayoutY() + player1Height){
 
-                    player1.setHealth(player1.getHealth() - 10);
+                    player1.setHealth(player1.getHealth() - player2.getDamage());
                     toRemoveFire.add(projectile);
                     toRemoveShape.add(projectile.getShape());
-                    healthBar1.setPrefWidth(healthBar1.getPrefWidth()-20);
+                    healthBar1.setPrefWidth(healthBar1.getPrefWidth() - player2.getDamage() * 2);
                 }
             }
             if(x < 0 || x > screenWidth || projectile.OutOfRange()) {
