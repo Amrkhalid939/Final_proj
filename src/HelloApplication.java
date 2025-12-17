@@ -67,8 +67,6 @@ public class HelloApplication extends Application {
     private void launchGame(Stage stage, String p1Type, String p2Type) {
         Character player1 = createCharacter(p1Type, "1");
         Character player2 = createCharacter(p2Type, "2");
-        styleCharacter(player1, p1Type);
-        styleCharacter(player2, p2Type);
 
         Pane p = new Pane(player1.getPlayer(), player2.getPlayer());
         p.setStyle("-fx-background-color: #34495e;");
@@ -124,16 +122,6 @@ public class HelloApplication extends Application {
         stage.setScene(endScene);
     }
 
-    private void styleCharacter(Character c, String type) {
-        Button b = c.getPlayer();
-        String baseStyle = "-fx-text-fill: white; -fx-font-weight: bold; -fx-border-color: black; -fx-border-width: 2px;";
-        switch (type) {
-            case "Warrior": b.setStyle(baseStyle + "-fx-background-color: #c0392b;"); break;
-            case "Mage":    b.setStyle(baseStyle + "-fx-background-color: #8e44ad;"); break;
-            case "Archer":  b.setStyle(baseStyle + "-fx-background-color: #27ae60;"); break;
-            default:        b.setStyle(baseStyle + "-fx-background-color: grey;");
-        }
-    }
 
     private Character createCharacter(String type, String name) {
         switch (type) {

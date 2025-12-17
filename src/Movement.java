@@ -1,9 +1,9 @@
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,10 +24,10 @@ public class Movement {
     private static final double collideMargin = 15;
 
     public static void initialPlace(Character player1, Character player2, int screenWidth, int screenHeight, Pane p) {
-        Button p1 = player1.getPlayer();
-        Button p2 = player2.getPlayer();
-        p1.setPrefWidth(50); p1.setPrefHeight(50);
-        p2.setPrefWidth(50); p2.setPrefHeight(50);
+        ImageView p1 = player1.getPlayer();
+        ImageView p2 = player2.getPlayer();
+        p1.setFitWidth(50); p1.setFitHeight(50);
+        p2.setFitWidth(50); p2.setFitHeight(50);
         Movement.player1 = player1;
         Movement.player2 = player2;
         Movement.player1Width = 50;
@@ -59,8 +59,8 @@ public class Movement {
     }
 
     public static void move(HashSet<String> keys) {
-        Node p1 = player1.getPlayer();
-        Node p2 = player2.getPlayer();
+        ImageView p1 = player1.getPlayer();
+        ImageView p2 = player2.getPlayer();
         double p1Step = player1.getSpeed();
         double p2Step = player2.getSpeed();
 
@@ -133,8 +133,8 @@ public class Movement {
 
 
     public static boolean collide(String player_name, double nextX, double nextY) {
-        Node p1 = player1.getPlayer();
-        Node p2 = player2.getPlayer();
+        ImageView p1 = player1.getPlayer();
+        ImageView p2 = player2.getPlayer();
 
         if (player_name.equals(player1.getName())) {
             if (nextX + player1Width + collideMargin > p2.getLayoutX() &&

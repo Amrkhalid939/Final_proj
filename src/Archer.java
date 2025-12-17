@@ -1,15 +1,16 @@
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Archer extends Character{
-    private Button player;
+    private ImageView player;
     public Archer(String characterName) {
         super(characterName,   new Bow(), new Spear(),
                 20,100, 5, 12);
-        player =  new Button("A");
+        player =  new ImageView(new Image("/Images/Archer.png"));
     }
 
 
-    public Button  getPlayer() {
+    public ImageView getPlayer() {
         return player;
     }
 }

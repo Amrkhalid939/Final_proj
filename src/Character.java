@@ -1,5 +1,5 @@
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Character {
     private String name;
@@ -39,9 +39,6 @@ public class Character {
     public Weapon getWeapon() {
         return weapon1;
     }
-    public double getRange() {
-        return range;
-    }
     public double getHealth() {
         return health;
     }
@@ -57,8 +54,8 @@ public class Character {
         this.health = health;
     }
 
-    public Button getPlayer() {
-        return new Button("X");
+    public ImageView getPlayer() {
+        return new ImageView(new Image("/Images/Warrior.png"));
     }
 
     public void setDirection(int x, int y) {
